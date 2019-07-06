@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset= utf-8">
+        
+        <title>Google Glass</title>
+        <link rel="stylesheet" type="text/css" href="_css/estilo.css">
+        <link rel="stylesheet" href="_css/form.css">
+
+        <script language="javascript" src="_javascript/funcoes.js"></script>
+        
+        <script type="text/javascript">
+            function limpa_formulário_cep() {
+            document.getElementById('rua').value=("");
+            document.getElementById('bairro').value=("");
+            document.getElementById('cidade').value=("");
+            document.getElementById('uf').value=("");
+            }
+
+            function meu_callback(conteudo) {
+                if (!("erro" in conteudo)) {
+                    document.getElementById('rua').value=(conteudo.logradouro);
+                    document.getElementById('bairro').value=(conteudo.bairro);
+                    document.getElementById('cidade').value=(conteudo.localidade);
+                    document.getElementById('uf').value=(conteudo.uf);
+                }
+                else {
+                    limpa_formulário_cep();
+                    alert("CEP não encontrado.");
+                }
+            }
+                
+            function pesquisacep(valor) {
+                var cep = valor.replace(/\D/g, '');
+
+                if (cep != "") {
+                    var validacep = /^[0-9]{8}$/;
+
+
+                    if(validacep.test(cep)) {
+                        document.getElementById('rua').value="...";
+                        document.getElementById('bairro').value="...";
+                        document.getElementById('cidade').value="...";
+                        document.getElementById('uf').value="...";
+
+                        var script = document.createElement('script');
+
+                        script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+                        document.body.appendChild(script);
+
+                    }
+                    else {
+                        limpa_formulário_cep();
+                        alert("Formato de CEP inválido.");
+                    }
+                }
+                else {
+                    limpa_formulário_cep();
+                }
+            }
+
+            function funcao1(){
+                alert("CEP: "+document.getElementById('cep').value +
+                        "\nRua: " + document.getElementById('rua').value + 
+                        ("\nBairro: ") + document.getElementById('bairro').value +
+                        ("\n Cidade: ") + document.getElementById('cidade').value +
+                        ("\nEstado: ") + document.getElementById('uf').value)
+            }
+        </script>
+    </head>
+
+    <body>
+
+    <div id="interface">
+        <header id="cabecalho">
+            <hgroup>
+                <h1>Trabalhinho do Marcos</h1>
+            </hgroup>
+               
+            <img id="icone" src="_imagens/contato.png" width="150" height="200">
+    
+        <nav id="menuprincipal">
+            <h1>Menu Principal</h1>
+                <ul>
+                    <li onmouseover="mudafoto('_imagens/home.png')" onmouseout="mudafoto('_imagens/contato.png')"><a href="index.html">Home</li></a>
+                    <li onmouseover="mudafoto('_imagens/especificacoes.png')" onmouseout="mudafoto('_imagens/contato.png')"><a href="specs.html">Especificações</li></a>
+                    <li onmouseover="mudafoto('_imagens/fotos.png')" onmouseout="mudafoto('_imagens/contato.png')"><a href="fotos.html">Fotos</li></a>
+                    <li onmouseover="mudafoto('_imagens/multimidia.png')" onmouseout="mudafoto('_imagens/contato.png')"><a href="multimidia.html">Multimídia</li></a>
+                    <li onmouseover="mudafoto('_imagens/contato.png')" onmouseout="mudafoto('_imagens/contato.png')"><a href="fale-conosco.html">Formulário</li></a>
+                </ul>
+        </nav>
+        </header>
+
+        <section id="corpofull">
+            <article id="noticiaprincipal">
+                <header id="cabecalhoArtigo">
+                    <hgroup>
+                        <h4></h4>
+                        <h2>Formulário chatão hein</h2><br>
+                        <i>por <span style="text-decoration: underline">Fábio Henrique Sena</i></span> || em 06/julho/2019<br><br>
+                    </hgroup>
+                </header>
+
+                <form method="get" action=".">
+                    <label>Cep:
+                     <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
+                            onblur="pesquisacep(this.value);" /></label><br />
+                    <label>Rua:
+                    <input name="rua" type="text" id="rua" size="60" /></label><br />
+                    <label>Bairro:
+                    <input name="bairro" type="text" id="bairro" size="40" /></label><br />
+                    <label>Cidade:
+                    <input name="cidade" type="text" id="cidade" size="40" /></label><br />
+                    <label>Estado:
+                    <input name="uf" type="text" id="uf" size="2" /></label><br />
+                    <input type="button" onclick="funcao1()" value="Enviar dados">
+                </form>
+            </article>
+        </section>
+    <footer id="rodape">
+        <h5>Copyright &copy; 2019 - by Fábio Henrique Sena &reg; <br>
+        <a href="http://www.facebook.com/fabjuyh" target="_blanc" style="color:blue">Facebook</a> || <a href="https://www.instagram.com/senaa8_/" target="_blanc" style="color:blue">Instagram</a>
+        </h5>
+    </footer>
+</div>
+</body>
+</html>
